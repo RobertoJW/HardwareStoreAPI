@@ -1,0 +1,12 @@
+﻿runtime: custom
+env: flex
+
+entrypoint: "dotnet /app/publish/HardwareStoreAPI.dll"
+
+handlers:
+  - url: /.*
+    script: auto
+    secure: always
+
+env_variables:
+  ASPNETCORE_URLS: "http://*:8080"

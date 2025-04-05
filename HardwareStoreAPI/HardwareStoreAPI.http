@@ -1,0 +1,6 @@
+@HardwareStoreAPI_HostAddress = http://localhost:5148
+
+GET {{HardwareStoreAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
