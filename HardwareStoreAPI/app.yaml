@@ -1,12 +1,20 @@
-﻿runtime: custom
+﻿runtime: aspnetcore
 env: flex
 
-entrypoint: "dotnet /app/publish/HardwareStoreAPI.dll"
+runtime_config:
+    operating_system: "ubuntu22"
+
+entrypoint: dotnet publish/HardwareStoreAPI.dll
+
+automatic_scaling:
+  min_num_instances: 1
+  max_num_instances: 7
 
 handlers:
-  - url: /.*
-    script: auto
-    secure: always
+- url: /.*
+  script: auto
+  secure: always
 
 env_variables:
-  ASPNETCORE_URLS: "http://*:8080"
+  ASPNETCORE_URLS: "http://0.0.0.0:8080"
+  DOTNET_RUNNING_IN_CONTAINER: "true"
