@@ -13,7 +13,7 @@ namespace HardwareStoreAPI.Modelo
     {
         public tipoPc tipoPc { get; set; }
 
-        public Sobremesa(byte[] image, string companyBrand, string nameProduct, string description, string category, double price)
+        public Sobremesa(string image, string companyBrand, string nameProduct, string description, string category, double price)
             : base(image, companyBrand, nameProduct, description, category, price)
         {
             this.tipoPc = tipoPc;

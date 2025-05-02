@@ -12,7 +12,7 @@ namespace HardwareStoreAPI.Modelo
     {
         public int pulgadas { get; set; }
 
-        public Movil(byte[] image, string companyBrand, string nameProduct, string description, string category, double price, int pulgadas)
+        public Movil(string image, string companyBrand, string nameProduct, string description, string category, double price, int pulgadas)
             : base(image, companyBrand, nameProduct, description, category, price)
         {
             this.pulgadas = pulgadas;
