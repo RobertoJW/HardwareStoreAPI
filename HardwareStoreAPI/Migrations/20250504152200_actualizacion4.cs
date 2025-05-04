@@ -6,24 +6,11 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace HardwareStoreAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class actualizacion3 : Migration
+    public partial class actualizacion4 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "ProductoTempId51",
-                table: "Portatiles",
-                type: "int",
-                nullable: false,
-                defaultValue: 0);
-
-            migrationBuilder.AddColumn<int>(
-                name: "ProductoTempId4",
-                table: "Moviles",
-                type: "int",
-                nullable: true);
-
             migrationBuilder.CreateTable(
                 name: "DescripcionPortatilMovil",
                 columns: table => new
@@ -106,6 +93,12 @@ namespace HardwareStoreAPI.Migrations
             migrationBuilder.DropColumn(
                 name: "ProductoTempId4",
                 table: "Moviles");
+
+            migrationBuilder.AddColumn<string>(
+                name: "description",
+                table: "Productos",
+                type: "longtext",
+                nullable: false);
         }
     }
 }

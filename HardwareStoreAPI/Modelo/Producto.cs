@@ -18,8 +18,13 @@ namespace HardwareStoreAPI.Modelo
         public string category { get; set; }
         public double price { get; set; }
 
+
+        // relacion uno a muchos
+        public virtual ICollection<Movil> Moviles { get; set; }
+        public virtual ICollection<Sobremesa> Sobremesas { get; set; }
+        public virtual ICollection<Portatil> Portatiles { get; set; }
+
         // relacion uno a uno
-        public virtual Movil Movil { get; set; }
         public virtual DescripcionPortatilMovil DescripcionPortatilMovil { get; set; }
         public virtual DescripcionSobremesa DescripcionSobremesa { get; set; }
 
@@ -31,6 +36,9 @@ namespace HardwareStoreAPI.Modelo
             this.nameProduct = nameProduct;
             this.category = category;
             this.price = price;
+            this.Moviles = new List<Movil>();
+            this.Sobremesas = new List<Sobremesa>();
+            this.Portatiles = new List<Portatil>();
         }
 
         public Producto(){}

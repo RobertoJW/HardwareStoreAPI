@@ -3,6 +3,7 @@ using System;
 using HardwareStoreAPI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HardwareStoreAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250504152200_actualizacion4")]
+    partial class actualizacion4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -212,13 +215,11 @@ namespace HardwareStoreAPI.Migrations
                 {
                     b.HasBaseType("HardwareStoreAPI.Modelo.Producto");
 
-                    b.Property<int?>("Productoid_producto")
+                    b.Property<int?>("ProductoTempId4")
                         .HasColumnType("int");
 
                     b.Property<int>("pulgadas")
                         .HasColumnType("int");
-
-                    b.HasIndex("Productoid_producto");
 
                     b.ToTable("Moviles", (string)null);
                 });
@@ -227,7 +228,7 @@ namespace HardwareStoreAPI.Migrations
                 {
                     b.HasBaseType("HardwareStoreAPI.Modelo.Producto");
 
-                    b.Property<int?>("Productoid_producto")
+                    b.Property<int>("ProductoTempId51")
                         .HasColumnType("int");
 
                     b.Property<int>("pulgadas")
@@ -236,8 +237,6 @@ namespace HardwareStoreAPI.Migrations
                     b.Property<int>("tipoPc")
                         .HasColumnType("int");
 
-                    b.HasIndex("Productoid_producto");
-
                     b.ToTable("Portatiles", (string)null);
                 });
 
@@ -245,13 +244,8 @@ namespace HardwareStoreAPI.Migrations
                 {
                     b.HasBaseType("HardwareStoreAPI.Modelo.Producto");
 
-                    b.Property<int?>("Productoid_producto")
-                        .HasColumnType("int");
-
                     b.Property<int>("tipoPc")
                         .HasColumnType("int");
-
-                    b.HasIndex("Productoid_producto");
 
                     b.ToTable("Sobremesas", (string)null);
                 });
@@ -318,41 +312,35 @@ namespace HardwareStoreAPI.Migrations
 
             modelBuilder.Entity("HardwareStoreAPI.Modelo.Movil", b =>
                 {
-                    b.HasOne("HardwareStoreAPI.Modelo.Producto", null)
-                        .WithMany("Moviles")
-                        .HasForeignKey("Productoid_producto");
-
-                    b.HasOne("HardwareStoreAPI.Modelo.Producto", null)
-                        .WithOne()
+                    b.HasOne("HardwareStoreAPI.Modelo.Producto", "Producto")
+                        .WithOne("Movil")
                         .HasForeignKey("HardwareStoreAPI.Modelo.Movil", "id_producto")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Producto");
                 });
 
             modelBuilder.Entity("HardwareStoreAPI.Modelo.Portatil", b =>
                 {
-                    b.HasOne("HardwareStoreAPI.Modelo.Producto", null)
-                        .WithMany("Portatiles")
-                        .HasForeignKey("Productoid_producto");
-
-                    b.HasOne("HardwareStoreAPI.Modelo.Producto", null)
-                        .WithOne()
-                        .HasForeignKey("HardwareStoreAPI.Modelo.Portatil", "id_producto")
+                    b.HasOne("HardwareStoreAPI.Modelo.Producto", "Producto")
+                        .WithMany()
+                        .HasForeignKey("id_producto")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Producto");
                 });
 
             modelBuilder.Entity("HardwareStoreAPI.Modelo.Sobremesa", b =>
                 {
-                    b.HasOne("HardwareStoreAPI.Modelo.Producto", null)
-                        .WithMany("Sobremesas")
-                        .HasForeignKey("Productoid_producto");
-
-                    b.HasOne("HardwareStoreAPI.Modelo.Producto", null)
-                        .WithOne()
-                        .HasForeignKey("HardwareStoreAPI.Modelo.Sobremesa", "id_producto")
+                    b.HasOne("HardwareStoreAPI.Modelo.Producto", "Producto")
+                        .WithMany()
+                        .HasForeignKey("id_producto")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Producto");
                 });
 
             modelBuilder.Entity("HardwareStoreAPI.Modelo.Producto", b =>
@@ -363,11 +351,8 @@ namespace HardwareStoreAPI.Migrations
                     b.Navigation("DescripcionSobremesa")
                         .IsRequired();
 
-                    b.Navigation("Moviles");
-
-                    b.Navigation("Portatiles");
-
-                    b.Navigation("Sobremesas");
+                    b.Navigation("Movil")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

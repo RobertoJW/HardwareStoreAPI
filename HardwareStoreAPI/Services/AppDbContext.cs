@@ -31,19 +31,6 @@ namespace HardwareStoreAPI.Services
                 .ToTable("Moviles"); // Esta será la tabla para Moviles
             modelBuilder.Entity<Sobremesa>()
                 .ToTable("Sobremesas"); // Esta será la tabla para Sobremesas
-
-            // sirven para eliminar las descripciones en caso de que se elimine el producto
-            /*modelBuilder.Entity<DescripcionPortatilMovil>()
-                .HasOne(d => d.Producto)
-                .WithOne()
-                .HasForeignKey<DescripcionPortatilMovil>(d => d.Producto)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<DescripcionSobremesa>()
-                .HasOne(d => d.Producto)
-                .WithOne()
-                .HasForeignKey<DescripcionSobremesa>(d => d.Producto)
-                .OnDelete(DeleteBehavior.Cascade);*/
         }
     }
 }
