@@ -15,7 +15,6 @@ namespace HardwareStoreAPI.Modelo
         public string imageUrl { get; set; }
         public string companyBrand { get; set; }
         public string nameProduct { get; set; }
-        public string description { get; set; }
         public string category { get; set; }
         public double price { get; set; }
 
@@ -25,12 +24,11 @@ namespace HardwareStoreAPI.Modelo
         public virtual DescripcionSobremesa DescripcionSobremesa { get; set; }
 
 
-        public Producto(string imageUrl, string companyBrand, string nameProduct, string description, string category, double price)
+        public Producto(string imageUrl, string companyBrand, string nameProduct, string category, double price)
         {
             this.imageUrl = imageUrl;
             this.companyBrand = companyBrand;
             this.nameProduct = nameProduct;
-            this.description = description;
             this.category = category;
             this.price = price;
         }
