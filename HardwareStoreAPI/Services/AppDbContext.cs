@@ -15,6 +15,8 @@ namespace HardwareStoreAPI.Services
         public DbSet<Modelo.Movil> Moviles { get; set; }
         public DbSet<Modelo.Sobremesa> Sobremesas { get; set; }
         public DbSet<Modelo.Portatil> Portatiles { get; set; }
+        public DbSet<Modelo.DescripcionPortatilMovil> DescripcionPortatilMovil { get; set; }
+        public DbSet<Modelo.DescripcionSobremesa> DescripcionSobremesa { get; set; }
 
         // metodo para indicar a Entity Framework Core las clases heredadas de Producto
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -29,6 +31,19 @@ namespace HardwareStoreAPI.Services
                 .ToTable("Moviles"); // Esta será la tabla para Moviles
             modelBuilder.Entity<Sobremesa>()
                 .ToTable("Sobremesas"); // Esta será la tabla para Sobremesas
+
+            // sirven para eliminar las descripciones en caso de que se elimine el producto
+            /*modelBuilder.Entity<DescripcionPortatilMovil>()
+                .HasOne(d => d.Producto)
+                .WithOne()
+                .HasForeignKey<DescripcionPortatilMovil>(d => d.Producto)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<DescripcionSobremesa>()
+                .HasOne(d => d.Producto)
+                .WithOne()
+                .HasForeignKey<DescripcionSobremesa>(d => d.Producto)
+                .OnDelete(DeleteBehavior.Cascade);*/
         }
     }
 }

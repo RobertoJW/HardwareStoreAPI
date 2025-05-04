@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HardwareStoreAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250423162736_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250504125942_actualizacion1")]
+    partial class actualizacion1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -72,10 +72,6 @@ namespace HardwareStoreAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("TipoProducto")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<string>("category")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -88,9 +84,9 @@ namespace HardwareStoreAPI.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<byte[]>("image")
+                    b.Property<string>("imageUrl")
                         .IsRequired()
-                        .HasColumnType("longblob");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("nameProduct")
                         .IsRequired()
@@ -112,6 +108,9 @@ namespace HardwareStoreAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("UrlprofilePhoto")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("email")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -119,10 +118,6 @@ namespace HardwareStoreAPI.Migrations
                     b.Property<string>("password")
                         .IsRequired()
                         .HasColumnType("longtext");
-
-                    b.Property<byte[]>("profilePhoto")
-                        .IsRequired()
-                        .HasColumnType("longblob");
 
                     b.Property<string>("userName")
                         .IsRequired()

@@ -19,7 +19,11 @@ namespace HardwareStoreAPI.Modelo
         public string category { get; set; }
         public double price { get; set; }
 
-        public string TipoProducto { get; set; }
+        // relacion uno a uno
+        public virtual Movil Movil { get; set; }
+        public virtual DescripcionPortatilMovil DescripcionPortatilMovil { get; set; }
+        public virtual DescripcionSobremesa DescripcionSobremesa { get; set; }
+
 
         public Producto(string imageUrl, string companyBrand, string nameProduct, string description, string category, double price)
         {

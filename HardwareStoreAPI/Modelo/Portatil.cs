@@ -12,6 +12,8 @@ namespace HardwareStoreAPI.Modelo
 {
     public class Portatil : Producto
     {
+        [ForeignKey("id_producto")]
+        public virtual Producto Producto { get; set; }
         public tipoPc tipoPc { get; set; }
         public int pulgadas { get; set; }
 

@@ -10,6 +10,8 @@ namespace HardwareStoreAPI.Modelo
 {
     public class Movil : Producto
     {
+        [ForeignKey("id_producto")]
+        public virtual Producto Producto { get; set; }
         public int pulgadas { get; set; }
 
         public Movil(string image, string companyBrand, string nameProduct, string description, string category, double price, int pulgadas)

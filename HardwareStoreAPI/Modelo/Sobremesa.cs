@@ -11,6 +11,8 @@ namespace HardwareStoreAPI.Modelo
 {
     public class Sobremesa : Producto
     {
+        [ForeignKey("id_producto")]
+        public virtual Producto Producto { get; set; }
         public tipoPc tipoPc { get; set; }
 
         public Sobremesa(string image, string companyBrand, string nameProduct, string description, string category, double price)
