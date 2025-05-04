@@ -19,8 +19,6 @@ namespace HardwareStoreAPI.Modelo
         public string category { get; set; }
         public double price { get; set; }
 
-        public string TipoProducto { get; set; }
-
         public Producto(string imageUrl, string companyBrand, string nameProduct, string description, string category, double price)
         {
             this.imageUrl = imageUrl;
