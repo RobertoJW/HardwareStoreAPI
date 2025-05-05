@@ -23,10 +23,11 @@ namespace HardwareStoreAPI.Modelo
         public string PlacaBase { get; set; }
 
         public virtual Producto Producto { get; set; }
-        public DescripcionGeneral(string CPU, string RAM, string Almacenamiento, string SistemaOperativo, string PlacaBase)
+        public DescripcionGeneral(string CPU, string RAM, string GPU, string Almacenamiento, string SistemaOperativo, string PlacaBase)
         {
             this.CPU = CPU;
             this.RAM = RAM;
+            this.GPU = GPU;
             this.Almacenamiento = Almacenamiento;
             this.SistemaOperativo = SistemaOperativo;
             this.PlacaBase = PlacaBase;
