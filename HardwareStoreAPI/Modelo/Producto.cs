@@ -24,10 +24,9 @@ namespace HardwareStoreAPI.Modelo
         public virtual ICollection<Sobremesa> Sobremesas { get; set; }
         public virtual ICollection<Portatil> Portatiles { get; set; }
 
-        // relacion uno a uno
+        // relacion uno a uno con DescripcionPortatilMovil y DescripcionSobremesa
         public virtual DescripcionPortatilMovil DescripcionPortatilMovil { get; set; }
         public virtual DescripcionSobremesa DescripcionSobremesa { get; set; }
-
 
         public Producto(string imageUrl, string companyBrand, string nameProduct, string category, double price)
         {

@@ -8,29 +8,21 @@ using System.Threading.Tasks;
 
 namespace HardwareStoreAPI.Modelo
 {
-    public class DescripcionPortatilMovil
+    public class DescripcionPortatilMovil : DescripcionGeneral
     {
         [Key]
         public int id_descripcionPortatilMovil { get; set; }
-        public string procesador { get; set; }
-        public string ram { get; set; }
-        public string almacenamiento { get; set; }
-        public string pantalla { get; set; }
-        public string tarjetaGrafica { get; set; }
-        public string sistemaOperativo { get; set; }
+        public int Pulgadas { get; set; }
+        public int Bateria { get; set; }
 
         [ForeignKey("Producto")]
         public int id_producto { get; set; } // Foreign key a Producto
         public virtual Producto Producto { get; set; }
 
-        public DescripcionPortatilMovil(string procesador, string ram, string almacenamiento, string pantalla, string tarjetaGrafica, string sistemaOperativo)
+        public DescripcionPortatilMovil(int Pulgadas, int Bateria)
         {
-            this.procesador = procesador;
-            this.ram = ram;
-            this.almacenamiento = almacenamiento;
-            this.pantalla = pantalla;
-            this.tarjetaGrafica = tarjetaGrafica;
-            this.sistemaOperativo = sistemaOperativo;
+            this.Pulgadas = Pulgadas;
+            this.Bateria = Bateria;
         }
         public DescripcionPortatilMovil() { }
     }

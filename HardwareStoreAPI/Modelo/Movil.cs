@@ -11,14 +11,9 @@ namespace HardwareStoreAPI.Modelo
 {
     public class Movil : Producto
     {
-
-        public int pulgadas { get; set; }
-
-        public Movil(string imageUrl, string companyBrand, string nameProduct, string category, double price, int pulgadas)
-            : base(imageUrl, companyBrand, nameProduct, category, price)
-        {
-            this.pulgadas = pulgadas;
-        }
+        public virtual DescripcionPortatilMovil DescripcionPortatilMovil { get; set; }
+        public Movil(string imageUrl, string companyBrand, string nameProduct, string category, double price)
+            : base(imageUrl, companyBrand, nameProduct, category, price) {}
 
         public Movil() { }
     }

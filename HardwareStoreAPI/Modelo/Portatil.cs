@@ -13,12 +13,12 @@ namespace HardwareStoreAPI.Modelo
     {
         public tipoPc tipoPc { get; set; }
         public int pulgadas { get; set; }
+        public virtual DescripcionPortatilMovil DescripcionPortatilMovil { get; set; }
 
-        public Portatil(string image, string companyBrand, string nameProduct, string category, double price, tipoPc tipoPc, int pulgadas)
+        public Portatil(string image, string companyBrand, string nameProduct, string category, double price, tipoPc tipoPc)
             : base(image, companyBrand, nameProduct, category, price)
         {
             this.tipoPc = tipoPc;
-            this.pulgadas = pulgadas;
         }
         public Portatil() {}
     }

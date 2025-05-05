@@ -8,31 +8,19 @@ using System.Threading.Tasks;
 
 namespace HardwareStoreAPI.Modelo
 {
-    public class DescripcionSobremesa
+    public class DescripcionSobremesa : DescripcionGeneral
     {
         [Key]
         public int id_descripcionSobremesa { get; set; }
-        public string procesador { get; set; }
-        public string ram { get; set; }
-        public string almacenamiento { get; set; }
-        public string tarjetaGrafica { get; set; }
-        public string fuentePoder { get; set; }
-        public string motherboard { get; set; }
-        public string refrigeracion { get; set; }
+        public string fuenteAlimentacion { get; set; }
 
         [ForeignKey("Producto")]
         public int id_producto { get; set; } // Foreign key a Producto
         public virtual Producto Producto { get; set; }
 
-        public DescripcionSobremesa(string procesador, string ram, string almacenamiento, string tarjetaGrafica, string fuentePoder, string motherboard, string refrigeracion)
+        public DescripcionSobremesa(string fuenteAlimentacion)
         {
-            this.procesador = procesador;
-            this.ram = ram;
-            this.almacenamiento = almacenamiento;
-            this.tarjetaGrafica = tarjetaGrafica;
-            this.fuentePoder = fuentePoder;
-            this.motherboard = motherboard;
-            this.refrigeracion = refrigeracion;
+            this.fuenteAlimentacion = fuenteAlimentacion;
         }
         public DescripcionSobremesa() { }
     }
