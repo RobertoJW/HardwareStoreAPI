@@ -1,0 +1,77 @@
+[33mcommit d7152bdd561ef320d86c37cab1274804c7edc0ce[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: rober <rober@DESKTOP-2VQ40R7>
+Date:   Mon May 5 13:09:19 2025 +0200
+
+    Añadido el atributo GPU al constructor de DescripcionGeneral
+
+[33mcommit c7a5b0749b4f1f29672d701e7ce95b8f3bfdcfa0[m
+Author: rober <rober@DESKTOP-2VQ40R7>
+Date:   Mon May 5 13:05:03 2025 +0200
+
+    He modificado las clases Descripcion
+
+[33mcommit fd685922532207ed7fcfddeb648c4891767c9475[m
+Author: roberto.jiang@educa.madrid.org <robertojiang84@gmail.com>
+Date:   Sun May 4 19:52:20 2025 +0200
+
+    Se han hecho multiples cambios en las relaciones entre las tablas
+
+[33mcommit a487ac73264b403c65383b68d5463239c4ce2ed5[m
+Author: roberto.jiang@educa.madrid.org <robertojiang84@gmail.com>
+Date:   Sun May 4 17:18:10 2025 +0200
+
+    Se ha eliminado la columna "Description" de la clase Producto para cambiarlo por clases independientes de descripcion
+
+[33mcommit 0ecbdba7ae09436736c3a6bc6687867b7e053fe3[m
+Author: roberto.jiang@educa.madrid.org <robertojiang84@gmail.com>
+Date:   Sun May 4 17:15:04 2025 +0200
+
+    Se ha eliminado TipoProducto de la clase Producto
+
+[33mcommit 05f841b75d85a4af49e30938c376ee285c8c1fc6[m
+Author: roberto.jiang@educa.madrid.org <robertojiang84@gmail.com>
+Date:   Sun May 4 14:56:39 2025 +0200
+
+    Revert "Se ha eliminado TipoProducto de la clase Producto"
+    
+    This reverts commit 6614626ac544a671a07da4a8fbaab8700c8bc2f6.
+
+[33mcommit 6614626ac544a671a07da4a8fbaab8700c8bc2f6[m
+Author: roberto.jiang@educa.madrid.org <robertojiang84@gmail.com>
+Date:   Sun May 4 14:51:00 2025 +0200
+
+    Se ha eliminado TipoProducto de la clase Producto
+
+[33mcommit 2239d0b0ecee804e9f9d47f784452100006f486f[m
+Author: roberto.jiang@educa.madrid.org <robertojiang84@gmail.com>
+Date:   Fri May 2 12:35:44 2025 +0200
+
+    Se ha actualizado los datos de la clase Usuarios
+
+[33mcommit 22e0f2c525002b05c70d877a1f163c10e09db591[m
+Author: roberto.jiang@educa.madrid.org <robertojiang84@gmail.com>
+Date:   Sat Apr 26 12:22:42 2025 +0200
+
+    Se ha corregido el código, y ahora es posible añadir nuevos usuarios, consultar los usuarios, etc.
+    
+    Mejoras en ControladorUsuarios y configuración de DB
+    
+    Se han añadido nuevas dependencias y servicios en `ControladorUsuarios.cs`, incluyendo la inyección de `AppDbContext` y la modificación del método `GetUsuarios` para devolver usuarios desde la base de datos. Se ha implementado un nuevo método `CrearUsuario` que verifica la existencia de un usuario antes de crearlo.
+    
+    El `Dockerfile` ha sido simplificado, eliminando instrucciones innecesarias. Se ha añadido la referencia a `Pomelo.EntityFrameworkCore.MySql` en `HardwareStoreAPI.csproj`.
+    
+    Se han actualizado los archivos de migración para reflejar la estructura de la base de datos, haciendo que `profilePhoto` sea nullable. También se han realizado cambios en `Usuario.cs` y `AppDbContextModelSnapshot.cs` para permitir que `profilePhoto` acepte valores nulos.
+    
+    Se ha configurado Swagger en `Program.cs` y se han ajustado las configuraciones en `app.yaml` y `appsettings.json` para asegurar la correcta conexión a la base de datos MySQL.
+
+[33mcommit cad1b0179ada430b5cf34a6fdfac696cc4ffd229[m
+Author: UsuarioPrincipal <UsuarioPrincipal@DESKTOP-LAI65D8>
+Date:   Sat Apr 5 11:23:39 2025 +0200
+
+    Agregar archivos de proyecto.
+
+[33mcommit 4016c9df53c351bc5ac31f7563146c82cdbe4d59[m
+Author: UsuarioPrincipal <UsuarioPrincipal@DESKTOP-LAI65D8>
+Date:   Sat Apr 5 11:23:37 2025 +0200
+
+    Agregar .gitattributes y .gitignore.
