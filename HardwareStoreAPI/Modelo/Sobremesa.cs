@@ -11,11 +11,9 @@ namespace HardwareStoreAPI.Modelo
 {
     public class Sobremesa : Producto
     {
-
         public tipoPc tipoPc { get; set; }
-        public virtual DescripcionSobremesa DescripcionSobremesa { get; set; }
 
-        public Sobremesa(string image, string companyBrand, string nameProduct, string category, tipoPc tipoPc, double price)
+        public Sobremesa(string image, string companyBrand, string nameProduct, string category, decimal price, tipoPc tipoPc)
             : base(image, companyBrand, nameProduct, category, price)
         {
             this.tipoPc = tipoPc;

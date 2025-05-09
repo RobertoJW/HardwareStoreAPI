@@ -15,8 +15,7 @@ namespace HardwareStoreAPI.Services
         public DbSet<Modelo.Movil> Moviles { get; set; }
         public DbSet<Modelo.Sobremesa> Sobremesas { get; set; }
         public DbSet<Modelo.Portatil> Portatiles { get; set; }
-        public DbSet<Modelo.DescripcionPortatilMovil> DescripcionPortatilMovil { get; set; }
-        public DbSet<Modelo.DescripcionSobremesa> DescripcionSobremesa { get; set; }
+        public DbSet<Modelo.DescripcionGeneral> DescripcionGeneral { get; set; }
 
         // metodo para indicar a Entity Framework Core las clases heredadas de Producto
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -24,13 +23,13 @@ namespace HardwareStoreAPI.Services
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Producto>()
-                .ToTable("Productos"); // Esta es la tabla base para la clase Producto
+                .ToTable("Productos");
             modelBuilder.Entity<Portatil>()
-                .ToTable("Portatiles"); // Esta será la tabla para Portatiles
+                .ToTable("Portatiles"); 
             modelBuilder.Entity<Movil>()
-                .ToTable("Moviles"); // Esta será la tabla para Moviles
+                .ToTable("Moviles");
             modelBuilder.Entity<Sobremesa>()
-                .ToTable("Sobremesas"); // Esta será la tabla para Sobremesas
+                .ToTable("Sobremesas");
         }
     }
 }

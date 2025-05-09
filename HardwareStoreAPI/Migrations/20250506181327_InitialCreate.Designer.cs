@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HardwareStoreAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250504125942_actualizacion1")]
-    partial class actualizacion1
+    [Migration("20250506181327_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,6 +45,54 @@ namespace HardwareStoreAPI.Migrations
                     b.ToTable("CarritoCompras");
                 });
 
+            modelBuilder.Entity("HardwareStoreAPI.Modelo.DescripcionGeneral", b =>
+                {
+                    b.Property<int>("IdDescripcionGeneral")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Almacenamiento")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("CPU")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Dimensiones")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("GPU")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("IdProducto")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Peso")
+                        .HasColumnType("double");
+
+                    b.Property<string>("PlacaBase")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("RAM")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("SistemaOperativo")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("IdDescripcionGeneral");
+
+                    b.HasIndex("IdProducto")
+                        .IsUnique();
+
+                    b.ToTable("DescripcionGeneral");
+                });
+
             modelBuilder.Entity("HardwareStoreAPI.Modelo.ListaFavoritos", b =>
                 {
                     b.Property<int>("id_favorito")
@@ -68,34 +116,30 @@ namespace HardwareStoreAPI.Migrations
 
             modelBuilder.Entity("HardwareStoreAPI.Modelo.Producto", b =>
                 {
-                    b.Property<int>("id_producto")
+                    b.Property<int>("IdProducto")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("category")
+                    b.Property<string>("Categoria")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("companyBrand")
+                    b.Property<string>("ImagenUrl")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("description")
+                    b.Property<string>("NombreEmpresa")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("imageUrl")
+                    b.Property<string>("NombreProducto")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("nameProduct")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<decimal>("Precio")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<double>("price")
-                        .HasColumnType("double");
-
-                    b.HasKey("id_producto");
+                    b.HasKey("IdProducto");
 
                     b.ToTable("Productos", (string)null);
 
@@ -132,7 +176,13 @@ namespace HardwareStoreAPI.Migrations
                 {
                     b.HasBaseType("HardwareStoreAPI.Modelo.Producto");
 
-                    b.Property<int>("pulgadas")
+                    b.Property<int>("Bateria")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Camara")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Pulgadas")
                         .HasColumnType("int");
 
                     b.ToTable("Moviles", (string)null);
@@ -142,7 +192,10 @@ namespace HardwareStoreAPI.Migrations
                 {
                     b.HasBaseType("HardwareStoreAPI.Modelo.Producto");
 
-                    b.Property<int>("pulgadas")
+                    b.Property<int>("Bateria")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Pulgadas")
                         .HasColumnType("int");
 
                     b.Property<int>("tipoPc")
@@ -180,6 +233,17 @@ namespace HardwareStoreAPI.Migrations
                     b.Navigation("Usuario");
                 });
 
+            modelBuilder.Entity("HardwareStoreAPI.Modelo.DescripcionGeneral", b =>
+                {
+                    b.HasOne("HardwareStoreAPI.Modelo.Producto", "Producto")
+                        .WithOne("DescripcionGeneral")
+                        .HasForeignKey("HardwareStoreAPI.Modelo.DescripcionGeneral", "IdProducto")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Producto");
+                });
+
             modelBuilder.Entity("HardwareStoreAPI.Modelo.ListaFavoritos", b =>
                 {
                     b.HasOne("HardwareStoreAPI.Modelo.Producto", "Producto")
@@ -203,7 +267,7 @@ namespace HardwareStoreAPI.Migrations
                 {
                     b.HasOne("HardwareStoreAPI.Modelo.Producto", null)
                         .WithOne()
-                        .HasForeignKey("HardwareStoreAPI.Modelo.Movil", "id_producto")
+                        .HasForeignKey("HardwareStoreAPI.Modelo.Movil", "IdProducto")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -212,7 +276,7 @@ namespace HardwareStoreAPI.Migrations
                 {
                     b.HasOne("HardwareStoreAPI.Modelo.Producto", null)
                         .WithOne()
-                        .HasForeignKey("HardwareStoreAPI.Modelo.Portatil", "id_producto")
+                        .HasForeignKey("HardwareStoreAPI.Modelo.Portatil", "IdProducto")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -221,9 +285,14 @@ namespace HardwareStoreAPI.Migrations
                 {
                     b.HasOne("HardwareStoreAPI.Modelo.Producto", null)
                         .WithOne()
-                        .HasForeignKey("HardwareStoreAPI.Modelo.Sobremesa", "id_producto")
+                        .HasForeignKey("HardwareStoreAPI.Modelo.Sobremesa", "IdProducto")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("HardwareStoreAPI.Modelo.Producto", b =>
+                {
+                    b.Navigation("DescripcionGeneral");
                 });
 #pragma warning restore 612, 618
         }
