@@ -6,19 +6,19 @@ namespace HardwareStoreAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ControladorCarritoCompra : ControllerBase
+    public class ControladorDescripcionGeneral : ControllerBase
     {
         private readonly AppDbContext _context;
-        public ControladorCarritoCompra(AppDbContext context)
+        public ControladorDescripcionGeneral(AppDbContext context)
         {
             _context = context;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCarritoCompra()
+        public async Task<IActionResult> GetDescripcionGeneral()
         {
-            var carritoCompra = await _context.CarritoCompras.ToListAsync();
-            return Ok(carritoCompra);
+            var descripcion = await _context.DescripcionGeneral.ToListAsync();
+            return Ok(descripcion);
         }
     }
 }

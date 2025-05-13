@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using HardwareStoreAPI.Modelo;
+using HardwareStoreAPI.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace HardwareStoreAPI.Controllers
 {
@@ -6,10 +9,18 @@ namespace HardwareStoreAPI.Controllers
     [Route("api/[controller]")]
     public class ControladorListaFavoritos : ControllerBase
     {
-        [HttpGet]
-        public IActionResult GetListaFavoritos()
+        private readonly AppDbContext _context;
+
+        public ControladorListaFavoritos(AppDbContext context)
         {
-            return Ok(new { message = "Lista de productos favoritos" });
+            _context = context;
+        }
+            
+        [HttpGet]
+        public async Task<IActionResult> GetListaFavoritos()
+        {
+            var listaFavoritos = await _context.ListaFavoritos.ToListAsync();
+            return Ok(listaFavoritos);
         }
     }
 }

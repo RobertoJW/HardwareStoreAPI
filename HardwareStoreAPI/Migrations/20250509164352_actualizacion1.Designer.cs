@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HardwareStoreAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250506181327_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250509164352_actualizacion1")]
+    partial class actualizacion1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -185,6 +185,10 @@ namespace HardwareStoreAPI.Migrations
                     b.Property<int>("Pulgadas")
                         .HasColumnType("int");
 
+                    b.Property<string>("Resolucion")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.ToTable("Moviles", (string)null);
                 });
 
@@ -197,6 +201,10 @@ namespace HardwareStoreAPI.Migrations
 
                     b.Property<int>("Pulgadas")
                         .HasColumnType("int");
+
+                    b.Property<string>("Resolucion")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<int>("tipoPc")
                         .HasColumnType("int");

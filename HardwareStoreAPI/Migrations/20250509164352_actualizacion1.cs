@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
+using MySql.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
 namespace HardwareStoreAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class actualizacion2 : Migration
+    public partial class actualizacion1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -26,13 +27,14 @@ namespace HardwareStoreAPI.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "Resolucion",
-                table: "Portatiles");
-
+            // Eliminar la columna 'Resolucion' de las tablas 'Moviles' y 'Portatiles'
             migrationBuilder.DropColumn(
                 name: "Resolucion",
                 table: "Moviles");
+
+            migrationBuilder.DropColumn(
+                name: "Resolucion",
+                table: "Portatiles");
         }
     }
 }
