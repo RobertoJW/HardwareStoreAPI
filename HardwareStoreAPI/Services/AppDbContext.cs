@@ -5,13 +5,10 @@ namespace HardwareStoreAPI.Services
 {
     public class AppDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) 
-        { 
-        }
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {}
+
+        // Productos con herencia TPT
         public DbSet<Modelo.Producto> Productos { get; set; }
-        public DbSet<Modelo.Usuario> Usuarios { get; set; }
-        public DbSet<Modelo.CarritoCompra> CarritoCompras { get; set; }
-        public DbSet<Modelo.ListaFavoritos> ListaFavoritos { get; set; }
         public DbSet<Modelo.Movil> Moviles { get; set; }
         public DbSet<Modelo.Sobremesa> Sobremesas { get; set; }
         public DbSet<Modelo.Portatil> Portatiles { get; set; }
