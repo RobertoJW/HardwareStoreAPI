@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using HardwareStoreAdmin.Enumerado;
+using HardwareStoreAPI.Enumerado;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
