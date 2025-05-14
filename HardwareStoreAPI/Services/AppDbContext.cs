@@ -13,6 +13,9 @@ namespace HardwareStoreAPI.Services
         public DbSet<Modelo.Sobremesa> Sobremesas { get; set; }
         public DbSet<Modelo.Portatil> Portatiles { get; set; }
         public DbSet<Modelo.DescripcionGeneral> DescripcionGeneral { get; set; }
+        public DbSet<Modelo.CarritoCompra> CarritoCompras { get; set; }
+        public DbSet<Modelo.Usuario> Usuarios { get; set; }
+        public DbSet<Modelo.ListaFavoritos> ListaFavoritos { get; set; }
 
         // metodo para indicar a Entity Framework Core las clases heredadas de Producto
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -27,6 +30,15 @@ namespace HardwareStoreAPI.Services
                 .ToTable("Moviles");
             modelBuilder.Entity<Sobremesa>()
                 .ToTable("Sobremesas");
+
+            // metodos para que Entity Framework Core pueda leer los enumerados como String y no como int
+            modelBuilder.Entity<Sobremesa>()
+                .Property(s => s.tipoPc)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<Portatil>()
+                .Property(p => p.tipoPc)
+                .HasConversion<string>();
         }
     }
 }
