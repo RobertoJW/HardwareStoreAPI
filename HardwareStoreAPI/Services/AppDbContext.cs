@@ -39,6 +39,16 @@ namespace HardwareStoreAPI.Services
             modelBuilder.Entity<Portatil>()
                 .Property(p => p.tipoPc)
                 .HasConversion<string>();
+
+            modelBuilder.Entity<CarritoCompra>()
+                .HasOne(c => c.Usuario)
+                .WithOne(u => u.CarritoCompra)
+                .HasForeignKey<CarritoCompra>(c => c.userId);
+
+            modelBuilder.Entity<ListaFavoritos>()
+                .HasOne(f => f.Usuario)
+                .WithOne(u => u.ListaFavoritos)
+                .HasForeignKey<ListaFavoritos>(f => f.userId);
         }
     }
 }

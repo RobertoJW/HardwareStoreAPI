@@ -10,18 +10,26 @@ namespace HardwareStoreAPI.Controllers
     [Route("api/[controller]")]
     public class ControladorUsuarios : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly UsuarioService _usuario;
 
-        public ControladorUsuarios(AppDbContext context)
+        public ControladorUsuarios(UsuarioService user)
         {
-            _context = context;
+            _usuario = user;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetUsuarios()
         {
-            var usuarios = await _context.Usuarios.ToListAsync();
+            var usuarios = await _usuario.GetAllUsers();
             return Ok(usuarios);
+        }
+
+        // metodo para asignar al nuevo usuario un carrito de compra y una lista de favoritos automáticamente.
+        [HttpPost]
+        public async Task<IActionResult> AsignarUsuarioCarritoFavorito([FromBody] Usuario nuevoUsuario)
+        {
+            var creado = await _usuario.CrearUsuarioAsync(nuevoUsuario);
+            return CreatedAtAction(nameof(GetUsuarios), new { id = creado.userId }, creado);
         }
     }
 }
