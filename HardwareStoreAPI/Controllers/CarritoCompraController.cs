@@ -6,10 +6,10 @@ namespace HardwareStoreAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ControladorCarritoCompra : ControllerBase
+    public class CarritoCompraController : ControllerBase
     {
         private readonly AppDbContext _context;
-        public ControladorCarritoCompra(AppDbContext context)
+        public CarritoCompraController(AppDbContext context)
         {
             _context = context;
         }

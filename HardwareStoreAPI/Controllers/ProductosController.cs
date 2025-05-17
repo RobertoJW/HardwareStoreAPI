@@ -7,11 +7,11 @@ namespace HardwareStoreAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ControladorProductos : ControllerBase 
+    public class ProductosController : ControllerBase 
     {
         private readonly AppDbContext _context;
 
-        public ControladorProductos(AppDbContext context)
+        public ProductosController(AppDbContext context)
         {
             _context = context;
         }

@@ -1,60 +1,50 @@
-using HardwareStoreAPI.Services;
+﻿using HardwareStoreAPI.Services;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
+// Configurar DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+    options.UseMySql(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
+    )
+);
 
 builder.Services.AddScoped<UsuarioService>();
 
-// Add services to the container.
-
+// Añadir controladores y Swagger
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 builder.Services.AddEndpointsApiExplorer();
+
 var app = builder.Build();
 
-//builder.WebHost.UseUrls("http://0.0.0.0:8080");
+app.UseSwagger();
+app.UseSwaggerUI();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-// metodo para comprobar si las tablas han sido creadas
 using (var scope = app.Services.CreateScope())
 {
+    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
     try
     {
-        // Intentamos aplicar migraciones
-        dbContext.Database.Migrate(); // Aseg�rate de que las migraciones se apliquen
-
-        Debug.WriteLine("Las tablas se han creado correctamente.");
+        dbContext.Database.Migrate();
+        logger.LogInformation("Las tablas se han creado correctamente.");
     }
     catch (Exception ex)
     {
-        Debug.WriteLine($"Hubo un error al intentar crear las tablas: {ex.Message}");
+        logger.LogError(ex, "Hubo un error al intentar crear las tablas");
     }
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
-

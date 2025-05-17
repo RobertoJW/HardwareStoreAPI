@@ -7,11 +7,11 @@ namespace HardwareStoreAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ControladorListaFavoritos : ControllerBase
+    public class ListaFavoritosController : ControllerBase
     {
         private readonly AppDbContext _context;
 
-        public ControladorListaFavoritos(AppDbContext context)
+        public ListaFavoritosController(AppDbContext context)
         {
             _context = context;
         }

@@ -6,10 +6,10 @@ namespace HardwareStoreAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ControladorDescripcionGeneral : ControllerBase
+    public class DescripcionGeneralController : ControllerBase
     {
         private readonly AppDbContext _context;
-        public ControladorDescripcionGeneral(AppDbContext context)
+        public DescripcionGeneralController(AppDbContext context)
         {
             _context = context;
         }

@@ -8,11 +8,11 @@ namespace HardwareStoreAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ControladorUsuarios : ControllerBase
+    public class UsuariosController : ControllerBase
     {
         private readonly UsuarioService _usuario;
 
-        public ControladorUsuarios(UsuarioService user)
+        public UsuariosController(UsuarioService user)
         {
             _usuario = user;
         }

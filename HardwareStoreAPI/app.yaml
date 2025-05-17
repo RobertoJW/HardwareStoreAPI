@@ -1,20 +1,29 @@
-﻿runtime: aspnetcore
-env: flex
+﻿runtime: custom
+env: flexible
 
-runtime_config:
-    operating_system: "ubuntu22"
+env_variables:
+  ASPNETCORE_URLS: 'http://0.0.0.0:${PORT}'
+  DOTNET_RUNNING_IN_CONTAINER: 'true'
 
-entrypoint: dotnet publish/HardwareStoreAPI.dll
+ConnectionStrings__DefaultConnection: "Server=34.175.137.111;Port=3306;Database=bbdd1_tfg;Uid=RobertoJW;Pwd=1674079351020;"
+
+entrypoint: dotnet HardwareStoreAPI.dll
 
 automatic_scaling:
   min_num_instances: 1
-  max_num_instances: 7
+  max_num_instances: 5
+  cpu_utilization:
+    target_utilization: 0.6
 
-handlers:
-- url: /.*
-  script: auto
-  secure: always
+#liveness_check:
+#  path: "/_ah/health"
+#  check_interval_sec: 30
+#  timeout_sec: 4
+#  failure_threshold: 4
 
-env_variables:
-  ASPNETCORE_URLS: "http://0.0.0.0:8080"
-  DOTNET_RUNNING_IN_CONTAINER: "true"
+#readiness_check:
+#  path: "/_ah/ready"
+#  check_interval_sec: 5
+#  timeout_sec: 4
+#  failure_threshold: 2
+#  app_start_timeout_sec: 300
