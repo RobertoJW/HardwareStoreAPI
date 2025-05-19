@@ -1,12 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using HardwareStoreAPI.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HardwareStoreAPI.Controllers
 {
     [ApiController]
-    [Route("api/test")]
+    [Route("api/[controller]")]
     public class TestController : ControllerBase
     {
         [HttpGet]
-        public IActionResult Get() => Ok("pong");
+        [Route("/")]
+        public IActionResult Root() => Ok("API Running");
+
+        [HttpGet("test")]
+        public IActionResult Test() => Ok("Test endpoint OK");
     }
 }

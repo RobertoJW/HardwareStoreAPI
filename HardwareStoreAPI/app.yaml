@@ -2,28 +2,17 @@
 env: flexible
 
 env_variables:
-  ASPNETCORE_URLS: 'http://0.0.0.0:${PORT}'
+  ASPNETCORE_URLS: 'http://0.0.0.0:8080'
   DOTNET_RUNNING_IN_CONTAINER: 'true'
+  ConnectionStrings__DefaultConnection: "Server=/cloudsql/hardwarestore-8071e:europe-southwest1:bbdd1-tfg;Database=bbdd1-tfg;Uid=usuario;Pwd=1234;"
 
-ConnectionStrings__DefaultConnection: "Server=34.175.137.111;Port=3306;Database=bbdd1_tfg;Uid=RobertoJW;Pwd=1674079351020;"
+beta_settings:
+  cloud_sql_instances: hardwarestore-8071e:europe-southwest1:bbdd1-tfg
 
-entrypoint: dotnet HardwareStoreAPI.dll
+#entrypoint: dotnet HardwareStoreAPI.dll
 
 automatic_scaling:
   min_num_instances: 1
   max_num_instances: 5
   cpu_utilization:
     target_utilization: 0.6
-
-#liveness_check:
-#  path: "/_ah/health"
-#  check_interval_sec: 30
-#  timeout_sec: 4
-#  failure_threshold: 4
-
-#readiness_check:
-#  path: "/_ah/ready"
-#  check_interval_sec: 5
-#  timeout_sec: 4
-#  failure_threshold: 2
-#  app_start_timeout_sec: 300

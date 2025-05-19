@@ -16,17 +16,16 @@ WORKDIR /app
 
 # Instalar dependencias necesarias para MySQL y Cloud SQL socket
 RUN apt-get update && apt-get install -y \
-    libmysqlclient-dev \
+    default-libmysqlclient-dev \
     libssl-dev \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-# Puerto que App Engine asigna en la variable PORT
-ENV ASPNETCORE_URLS=http://+:${PORT}
+# Puerto asignado por App Engine
+#ENV ASPNETCORE_URLS=http://+:${PORT}
 
 # Copiamos los artefactos de la etapa 'build'
 COPY --from=build /app/publish ./
 
 # Punto de entrada
 ENTRYPOINT ["dotnet", "HardwareStoreAPI.dll"]
-

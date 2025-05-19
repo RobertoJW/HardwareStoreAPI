@@ -32,7 +32,7 @@ using (var scope = app.Services.CreateScope())
 
     try
     {
-        dbContext.Database.Migrate();
+        //dbContext.Database.Migrate();
         logger.LogInformation("Las tablas se han creado correctamente.");
     }
     catch (Exception ex)
@@ -47,4 +47,11 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+try
+{
+    app.Run();
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"ERROR al iniciar la app: {ex.Message}");
+}

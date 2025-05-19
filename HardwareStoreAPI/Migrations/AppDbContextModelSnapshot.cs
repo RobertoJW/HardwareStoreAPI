@@ -43,7 +43,7 @@ namespace HardwareStoreAPI.Migrations
                     b.HasIndex("userId")
                         .IsUnique();
 
-                    b.ToTable("CarritoCompras");
+                    b.ToTable("CarritoCompras", (string)null);
                 });
 
             modelBuilder.Entity("HardwareStoreAPI.Modelo.ListaFavoritos", b =>
@@ -65,7 +65,7 @@ namespace HardwareStoreAPI.Migrations
                     b.HasIndex("userId")
                         .IsUnique();
 
-                    b.ToTable("ListaFavoritos");
+                    b.ToTable("ListaFavoritos", (string)null);
                 });
 
             modelBuilder.Entity("HardwareStoreAPI.Modelo.Portatil", b =>
@@ -111,7 +111,7 @@ namespace HardwareStoreAPI.Migrations
 
                     b.HasKey("IdProducto");
 
-                    b.ToTable("Portatiles");
+                    b.ToTable("Portatiles", (string)null);
                 });
 
             modelBuilder.Entity("HardwareStoreAPI.Modelo.Sobremesa", b =>
@@ -147,7 +147,7 @@ namespace HardwareStoreAPI.Migrations
 
                     b.HasKey("IdProducto");
 
-                    b.ToTable("Sobremesas");
+                    b.ToTable("Sobremesas", (string)null);
                 });
 
             modelBuilder.Entity("HardwareStoreAPI.Modelo.Usuario", b =>
@@ -175,7 +175,7 @@ namespace HardwareStoreAPI.Migrations
 
                     b.HasKey("userId");
 
-                    b.ToTable("Usuarios");
+                    b.ToTable("Usuarios", (string)null);
                 });
 
             modelBuilder.Entity("HardwareStoreAPI.Modelo.CarritoCompra", b =>
