@@ -21,7 +21,9 @@ namespace HardwareStoreAPI.Controllers
         {
             try
             {
-                var productos = await _context.Productos.ToListAsync();
+                var productos = await _context.Productos
+                                             .Include(p => p.DescripcionGeneral)
+                                             .ToListAsync();
                 return Ok(productos);
             }
             catch (Exception ex)

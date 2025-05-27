@@ -45,10 +45,24 @@ namespace HardwareStoreAPI.Services
                 .WithOne(u => u.CarritoCompra)
                 .HasForeignKey<CarritoCompra>(c => c.userId);
 
+            modelBuilder.Entity<Usuario>()
+                .HasOne(u => u.ListaFavoritos)
+                .WithOne(lf => lf.Usuario)
+                .HasForeignKey<ListaFavoritos>(lf => lf.userId);
+
             modelBuilder.Entity<ListaFavoritos>()
-                .HasOne(f => f.Usuario)
-                .WithOne(u => u.ListaFavoritos)
-                .HasForeignKey<ListaFavoritos>(f => f.userId);
+                .HasMany(lf => lf.Productos)
+                .WithMany()
+                .UsingEntity<Dictionary<string, object>>(
+                    "ListaFavoritosProductos", // Nombre de la tabla intermedia
+                    j => j.HasOne<Producto>()
+                    .WithMany()
+                    .HasForeignKey("ProductoId"),
+
+                    j => j.HasOne<ListaFavoritos>()
+                    .WithMany()
+                    .HasForeignKey("ListaFavoritosId")
+                    .OnDelete(DeleteBehavior.Cascade));
         }
     }
 }

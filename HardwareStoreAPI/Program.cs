@@ -13,18 +13,26 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     )
 );
 
+// Inyectar servicios
 builder.Services.AddScoped<UsuarioService>();
 
-// Añadir controladores y Swagger
-builder.Services.AddControllers();
-builder.Services.AddSwaggerGen();
+// Configurar controladores con opción para evitar referencias cíclicas
+builder.Services.AddControllers().AddJsonOptions(x =>
+{
+    x.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+});
+
+// Swagger y endpoints
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// Middleware de Swagger
 app.UseSwagger();
 app.UseSwaggerUI();
 
+// Crear las tablas si no existen y loguear resultado
 using (var scope = app.Services.CreateScope())
 {
     var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
@@ -32,8 +40,10 @@ using (var scope = app.Services.CreateScope())
 
     try
     {
-        //dbContext.Database.Migrate();
-        logger.LogInformation("Las tablas se han creado correctamente.");
+        // Si quieres que aplique migraciones automáticas, descomenta la siguiente línea:
+        // dbContext.Database.Migrate();
+
+        logger.LogInformation("Las tablas se han creado correctamente (o ya existían).");
     }
     catch (Exception ex)
     {
@@ -41,12 +51,14 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-//app.UseHttpsRedirection();
+// Puedes descomentar esta línea si usas HTTPS en producción
+// app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
 
+// Captura errores al iniciar la app
 try
 {
     app.Run();

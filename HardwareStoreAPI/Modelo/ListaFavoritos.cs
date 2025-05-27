@@ -14,11 +14,9 @@ namespace HardwareStoreAPI.Modelo
         public int id_favorito { get; set; }
 
         public int userId { get; set; }
-        [ForeignKey("userId")]
         public virtual Usuario Usuario { get; set; }
 
-        public int id_producto { get; set; }
-        [ForeignKey("id_producto")]
-        public virtual Producto Producto { get; set; }
+        // Una lista de favoritos puede tener multiples productos.
+        public virtual ICollection<Producto> Productos { get; set; } = new List<Producto>();
     }
 }
