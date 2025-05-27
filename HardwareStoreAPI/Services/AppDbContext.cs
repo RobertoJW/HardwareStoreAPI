@@ -40,10 +40,23 @@ namespace HardwareStoreAPI.Services
                 .Property(p => p.tipoPc)
                 .HasConversion<string>();
 
-            modelBuilder.Entity<CarritoCompra>()
-                .HasOne(c => c.Usuario)
-                .WithOne(u => u.CarritoCompra)
+            modelBuilder.Entity<Usuario>()
+                .HasOne(u => u.CarritoCompra)
+                .WithOne(c => c.Usuario)
                 .HasForeignKey<CarritoCompra>(c => c.userId);
+
+            modelBuilder.Entity<CarritoCompra>()
+                .HasMany(c => c.Productos)
+                .WithMany()
+                .UsingEntity<Dictionary<string, object>>(
+                "CarritoCompraProductos", // Nombre de la tabla intermedia
+                j => j.HasOne<Producto>()
+                .WithMany()
+                .HasForeignKey("ProductoId"),
+                j => j.HasOne<CarritoCompra>()
+                .WithMany()
+                .HasForeignKey("CarritoCompraId")
+                .OnDelete(DeleteBehavior.Cascade));
 
             modelBuilder.Entity<Usuario>()
                 .HasOne(u => u.ListaFavoritos)
