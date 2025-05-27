@@ -31,5 +31,18 @@ namespace HardwareStoreAPI.Controllers
             var creado = await _usuario.CrearUsuarioAsync(nuevoUsuario);
             return CreatedAtAction(nameof(GetUsuarios), new { id = creado.userId }, creado);
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] Usuario usuarioLogin)
+        {
+            var usuario = await _usuario.ValidarCredencialesAsync(usuarioLogin.email, usuarioLogin.password);
+            if (usuario == null)
+            {
+                return Unauthorized(new { mensaje = "Credenciales inválidas" });
+            }
+
+            return Ok(usuario);
+        }
+
     }
 }

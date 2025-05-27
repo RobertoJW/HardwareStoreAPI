@@ -28,6 +28,13 @@ namespace HardwareStoreAPI.Services
 
             return nuevoUsuario;
         }
+        public async Task<Usuario?> ValidarCredencialesAsync(string email, string password)
+        {
+            return await _context.Usuarios
+                .Include(u => u.CarritoCompra)
+                .Include(u => u.ListaFavoritos)
+                .FirstOrDefaultAsync(u => u.email == email && u.password == password);
+        }
 
         public async Task<List<Usuario>> GetAllUsers()
         {
