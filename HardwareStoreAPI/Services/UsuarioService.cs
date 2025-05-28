@@ -41,12 +41,12 @@ namespace HardwareStoreAPI.Services
 
         public async Task<List<Usuario>> GetAllUsers()
         {
-            return await _context.Usuarios
-                .Include(u => u.ListaFavoritos)
+            return await _context.Usuarios.ToListAsync();
+                //.Include(u => u.ListaFavoritos)
                 //.ThenInclude(lf => lf.Productos)
-                .Include(u => u.CarritoCompra)
+                //.Include(u => u.CarritoCompra)
                 //.ThenInclude(c => c.Productos)
-                .ToListAsync();
+                //.ToListAsync();
         }
     }
 }

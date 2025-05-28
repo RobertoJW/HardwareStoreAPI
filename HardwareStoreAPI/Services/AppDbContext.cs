@@ -49,13 +49,13 @@ namespace HardwareStoreAPI.Services
                 .HasMany(c => c.Productos)
                 .WithMany()
                 .UsingEntity<Dictionary<string, object>>(
-                "CarritoCompraProductos", // Nombre de la tabla intermedia
+                "CarritoCompraProductos",
                 j => j.HasOne<Producto>()
                 .WithMany()
                 .HasForeignKey("IdProducto"),
                 j => j.HasOne<CarritoCompra>()
                 .WithMany()
-                .HasForeignKey("CarritoCompraId")
+                .HasForeignKey("id_carrito") 
                 .OnDelete(DeleteBehavior.Cascade));
 
             modelBuilder.Entity<Usuario>()
@@ -67,15 +67,14 @@ namespace HardwareStoreAPI.Services
                 .HasMany(lf => lf.Productos)
                 .WithMany()
                 .UsingEntity<Dictionary<string, object>>(
-                    "ListaFavoritosProductos", // Nombre de la tabla intermedia
-                    j => j.HasOne<Producto>()
-                    .WithMany()
-                    .HasForeignKey("IdProducto"),
-
-                    j => j.HasOne<ListaFavoritos>()
-                    .WithMany()
-                    .HasForeignKey("ListaFavoritosId")
-                    .OnDelete(DeleteBehavior.Cascade));
+                    "ListaFavoritosProductos",
+                j => j.HasOne<Producto>()
+                .WithMany()
+                .HasForeignKey("IdProducto"),
+                j => j.HasOne<ListaFavoritos>()
+                .WithMany()
+                .HasForeignKey("id_favorito")
+                .OnDelete(DeleteBehavior.Cascade));
         }
     }
 }
