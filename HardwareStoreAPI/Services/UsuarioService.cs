@@ -40,7 +40,6 @@ namespace HardwareStoreAPI.Services
             return nuevoUsuario;
         }
 
-
         public async Task<Usuario?> ValidarCredencialesAsync(string email, string password)
         {
             return await _context.Usuarios
