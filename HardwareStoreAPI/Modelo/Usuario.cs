@@ -18,8 +18,8 @@ namespace HardwareStoreAPI.Modelo
         // añadimos '?' para permitir valores nulos para fotos de perfil. 
         public string? UrlprofilePhoto { get; set; }
 
-        public virtual CarritoCompra CarritoCompra { get; set; }
-        public virtual ListaFavoritos ListaFavoritos { get; set; }
+        public virtual CarritoCompra? CarritoCompra { get; set; }
+        public virtual ListaFavoritos? ListaFavoritos { get; set; }
 
         public Usuario(string email, string userName, string password, string? UrlprofilePhoto)
         {
