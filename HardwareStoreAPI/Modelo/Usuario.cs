@@ -14,7 +14,7 @@ namespace HardwareStoreAPI.Modelo
         public string email { get; set; }
         public string userName { get; set; }
         // la contraseña no puede ser modificado. 
-        public string password { get; private set; }
+        public string password { get; set; }
         // añadimos '?' para permitir valores nulos para fotos de perfil. 
         public string? UrlprofilePhoto { get; set; }
 
