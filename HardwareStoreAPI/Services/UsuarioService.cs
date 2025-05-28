@@ -26,7 +26,10 @@ namespace HardwareStoreAPI.Services
             _context.ListaFavoritos.Add(favoritos);
             await _context.SaveChangesAsync();
 
-            return nuevoUsuario;
+            return await _context.Usuarios
+                .Include(u => u.CarritoCompra)
+                .Include(u => u.ListaFavoritos)
+                .FirstOrDefaultAsync(u => u.userId == nuevoUsuario.userId);
         }
         public async Task<Usuario?> ValidarCredencialesAsync(string email, string password)
         {
@@ -40,9 +43,9 @@ namespace HardwareStoreAPI.Services
         {
             return await _context.Usuarios
                 .Include(u => u.ListaFavoritos)
-                .ThenInclude(lf => lf.Productos)
+                //.ThenInclude(lf => lf.Productos)
                 .Include(u => u.CarritoCompra)
-                .ThenInclude(c => c.Productos)
+                //.ThenInclude(c => c.Productos)
                 .ToListAsync();
         }
     }

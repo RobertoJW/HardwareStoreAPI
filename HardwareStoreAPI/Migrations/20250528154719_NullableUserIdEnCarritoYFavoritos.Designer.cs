@@ -4,6 +4,7 @@ using HardwareStoreAPI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HardwareStoreAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250528154719_NullableUserIdEnCarritoYFavoritos")]
+    partial class NullableUserIdEnCarritoYFavoritos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,12 +30,12 @@ namespace HardwareStoreAPI.Migrations
                     b.Property<int>("CarritoCompraId")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdProducto")
+                    b.Property<int>("ProductoId")
                         .HasColumnType("int");
 
-                    b.HasKey("CarritoCompraId", "IdProducto");
+                    b.HasKey("CarritoCompraId", "ProductoId");
 
-                    b.HasIndex("IdProducto");
+                    b.HasIndex("ProductoId");
 
                     b.ToTable("CarritoCompraProductos");
                 });
@@ -192,15 +195,15 @@ namespace HardwareStoreAPI.Migrations
 
             modelBuilder.Entity("ListaFavoritosProductos", b =>
                 {
-                    b.Property<int>("IdProducto")
-                        .HasColumnType("int");
-
                     b.Property<int>("ListaFavoritosId")
                         .HasColumnType("int");
 
-                    b.HasKey("IdProducto", "ListaFavoritosId");
+                    b.Property<int>("ProductoId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("ListaFavoritosId");
+                    b.HasKey("ListaFavoritosId", "ProductoId");
+
+                    b.HasIndex("ProductoId");
 
                     b.ToTable("ListaFavoritosProductos");
                 });
@@ -267,7 +270,7 @@ namespace HardwareStoreAPI.Migrations
 
                     b.HasOne("HardwareStoreAPI.Modelo.Producto", null)
                         .WithMany()
-                        .HasForeignKey("IdProducto")
+                        .HasForeignKey("ProductoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -303,15 +306,15 @@ namespace HardwareStoreAPI.Migrations
 
             modelBuilder.Entity("ListaFavoritosProductos", b =>
                 {
-                    b.HasOne("HardwareStoreAPI.Modelo.Producto", null)
-                        .WithMany()
-                        .HasForeignKey("IdProducto")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("HardwareStoreAPI.Modelo.ListaFavoritos", null)
                         .WithMany()
                         .HasForeignKey("ListaFavoritosId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HardwareStoreAPI.Modelo.Producto", null)
+                        .WithMany()
+                        .HasForeignKey("ProductoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

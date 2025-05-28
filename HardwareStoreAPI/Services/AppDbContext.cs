@@ -52,7 +52,7 @@ namespace HardwareStoreAPI.Services
                 "CarritoCompraProductos", // Nombre de la tabla intermedia
                 j => j.HasOne<Producto>()
                 .WithMany()
-                .HasForeignKey("ProductoId"),
+                .HasForeignKey("IdProducto"),
                 j => j.HasOne<CarritoCompra>()
                 .WithMany()
                 .HasForeignKey("CarritoCompraId")
@@ -70,7 +70,7 @@ namespace HardwareStoreAPI.Services
                     "ListaFavoritosProductos", // Nombre de la tabla intermedia
                     j => j.HasOne<Producto>()
                     .WithMany()
-                    .HasForeignKey("ProductoId"),
+                    .HasForeignKey("IdProducto"),
 
                     j => j.HasOne<ListaFavoritos>()
                     .WithMany()

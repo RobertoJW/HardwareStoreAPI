@@ -3,6 +3,7 @@ using HardwareStoreAPI.Modelo;
 using HardwareStoreAPI.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace HardwareStoreAPI.Controllers
 {
@@ -28,8 +29,22 @@ namespace HardwareStoreAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> AsignarUsuarioCarritoFavorito([FromBody] Usuario nuevoUsuario)
         {
-            var creado = await _usuario.CrearUsuarioAsync(nuevoUsuario);
-            return CreatedAtAction(nameof(GetUsuarios), new { id = creado.userId }, creado);
+            try
+            {
+                var creado = await _usuario.CrearUsuarioAsync(nuevoUsuario);
+                return CreatedAtAction(nameof(GetUsuarios), new { id = creado.userId }, creado);
+            }
+            catch (Exception e)
+            {
+                var mensajeError = e.InnerException != null ? e.InnerException.Message : e.Message;
+                Debug.WriteLine($"[ERROR CREAR USUARIO] {mensajeError}");
+
+                return StatusCode(500, new
+                {
+                    mensaje = "El usuario no fue registrado. Posible error del servidor o datos inválidos.",
+                    detalle = mensajeError
+                });
+            }
         }
 
         [HttpPost("login")]
