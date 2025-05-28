@@ -14,11 +14,18 @@ namespace HardwareStoreAPI.Services
 
         public async Task<Usuario> CrearUsuarioAsync(Usuario nuevoUsuario)
         {
-            // 1. Añadir el usuario
+            // Comprobamos que no exista ya el usuario
+            var existe = await _context.Usuarios.AnyAsync(u => u.email == nuevoUsuario.email);
+            if (existe)
+            {
+                throw new Exception("El correo ya está en uso.");
+            }
+
+            // Guardamos el usuario primero
             _context.Usuarios.Add(nuevoUsuario);
             await _context.SaveChangesAsync();
 
-            // 2. Crear carrito y favoritos vinculados al usuario recién creado
+            // Creamos los objetos asociados
             var carrito = new CarritoCompra { userId = nuevoUsuario.userId };
             var favoritos = new ListaFavoritos { userId = nuevoUsuario.userId };
 
@@ -26,11 +33,14 @@ namespace HardwareStoreAPI.Services
             _context.ListaFavoritos.Add(favoritos);
             await _context.SaveChangesAsync();
 
-            return await _context.Usuarios
-                .Include(u => u.CarritoCompra)
-                .Include(u => u.ListaFavoritos)
-                .FirstOrDefaultAsync(u => u.userId == nuevoUsuario.userId);
+            // Reasociamos para que se devuelvan completos
+            nuevoUsuario.CarritoCompra = carrito;
+            nuevoUsuario.ListaFavoritos = favoritos;
+
+            return nuevoUsuario;
         }
+
+
         public async Task<Usuario?> ValidarCredencialesAsync(string email, string password)
         {
             return await _context.Usuarios
