@@ -5,34 +5,58 @@ using System.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configurar DbContext
+// Leer configuración de DetailedErrors y DeveloperMode del appsettings.json
+bool detailedErrors = builder.Configuration.GetValue<bool>("DetailedErrors");
+bool developerMode = builder.Configuration.GetValue<bool>("DeveloperMode");
+
+// Configurar DbContext con posibles opciones extra si están activadas
 builder.Services.AddDbContext<AppDbContext>(options =>
+{
     options.UseMySql(
         builder.Configuration.GetConnectionString("DefaultConnection"),
         ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
-    )
-);
+    );
+
+    if (detailedErrors)
+    {
+        options.EnableDetailedErrors();
+        options.EnableSensitiveDataLogging();
+    }
+});
 
 // Inyectar servicios
 builder.Services.AddScoped<UsuarioService>();
 
-// Configurar controladores con opción para evitar referencias cíclicas
+// Configurar controladores y evitar referencias cíclicas en JSON
 builder.Services.AddControllers().AddJsonOptions(x =>
 {
     x.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
 });
 
-// Swagger y endpoints
+// Añadir autorización para evitar errores
+builder.Services.AddAuthorization();
+
+// Configurar Swagger y explorador de endpoints
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// Mostrar página de errores detallada en desarrollo o si DeveloperMode está activo
+if (app.Environment.IsDevelopment() || developerMode)
+{
+    app.UseDeveloperExceptionPage();
+}
+else
+{
+    app.UseExceptionHandler("/Error");
+}
+
 // Middleware de Swagger
 app.UseSwagger();
 app.UseSwaggerUI();
 
-// Crear las tablas si no existen y loguear resultado
+// Crear tablas si no existen y loguear resultado
 using (var scope = app.Services.CreateScope())
 {
     var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
@@ -40,9 +64,7 @@ using (var scope = app.Services.CreateScope())
 
     try
     {
-        // Si quieres que aplique migraciones automáticas, descomenta la siguiente línea:
-        // dbContext.Database.Migrate();
-
+        // dbContext.Database.Migrate(); // Descomenta para aplicar migraciones automáticas
         logger.LogInformation("Las tablas se han creado correctamente (o ya existían).");
     }
     catch (Exception ex)
@@ -51,14 +73,12 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-// Puedes descomentar esta línea si usas HTTPS en producción
-// app.UseHttpsRedirection();
+// app.UseHttpsRedirection(); // Descomenta si usas HTTPS
 
 app.UseAuthorization();
 
 app.MapControllers();
 
-// Captura errores al iniciar la app
 try
 {
     app.Run();
@@ -66,4 +86,5 @@ try
 catch (Exception ex)
 {
     Console.WriteLine($"ERROR al iniciar la app: {ex.Message}");
+    throw; // Para que el error no se trague y puedas verlo en consola/logs
 }

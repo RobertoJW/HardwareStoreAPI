@@ -10,47 +10,64 @@ namespace HardwareStoreAPI.Controllers
     public class ListaFavoritosController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly ILogger<ListaFavoritosController> _logger;
 
-        public ListaFavoritosController(AppDbContext context)
+        public ListaFavoritosController(
+            AppDbContext context,
+            ILogger<ListaFavoritosController> logger)
         {
             _context = context;
+            _logger = logger;
         }
-            
-        [HttpGet]
-        public async Task<IActionResult> GetListaFavoritos()
-        {
-            var listaFavoritos = await _context.ListaFavoritos.ToListAsync();
-            return Ok(listaFavoritos);
-        }
+
         [HttpPost("agregar")]
         public async Task<IActionResult> AgregarProductoAFavoritos([FromBody] FavoritoRequest request)
         {
-            var lista = await _context.ListaFavoritos
-                .Include(l => l.Productos)
-                .FirstOrDefaultAsync(l => l.userId == request.UserId);
-
-            if (lista == null)
+            try
             {
-                return NotFound("Lista de favoritos no encontrada");
-            }
+                // Asegúrate de que el DTO viene bien formado
+                if (request == null || request.UserId <= 0 || request.ProductoId <= 0)
+                    return BadRequest(new { error = "Request inválido" });
 
-            var producto = await _context.Productos.FindAsync(request.ProductoId);
-            if (producto == null)
+                // Carga la lista del usuario
+                var lista = await _context.ListaFavoritos
+                    .Include(l => l.Productos)
+                    .FirstOrDefaultAsync(l => l.userId == request.UserId);
+
+                if (lista == null)
+                    return NotFound(new { error = "Lista de favoritos no encontrada" });
+
+                // Busca el producto
+                var producto = await _context.Productos.FindAsync(request.ProductoId);
+                if (producto == null)
+                    return NotFound(new { error = "Producto no encontrado" });
+
+                // Comprueba duplicados
+                if (lista.Productos.Any(p => p.IdProducto == producto.IdProducto))
+                    return BadRequest(new { error = "Producto ya está en favoritos" });
+
+                // Agrega y guarda
+                lista.Productos.Add(producto);
+                await _context.SaveChangesAsync();
+
+                return Ok(new { mensaje = "Producto agregado correctamente" });
+            }
+            catch (Exception ex)
             {
-                return NotFound("Producto no encontrado");
+                // Registrar el stacktrace para diagnóstico
+                _logger.LogError(ex,
+                    "Error agregando favorito: UserId={UserId}, ProductoId={ProductoId}",
+                    request?.UserId, request?.ProductoId);
+
+                // Devuelve JSON con detalle (solo en desarrollo; en producción omite stack)
+                return StatusCode(500, new
+                {
+                    error = "Error interno al agregar favorito",
+                    detalle = ex.Message
+                });
             }
-
-            // Evita duplicados
-            if (lista.Productos.Any(p => p.IdProducto == producto.IdProducto))
-            {
-                return BadRequest("Producto ya está en favoritos");
-            }
-
-            lista.Productos.Add(producto);
-            await _context.SaveChangesAsync();
-
-            return Ok("Producto agregado correctamente");
         }
+
         [HttpPost("quitar")]
         public async Task<IActionResult> QuitarProductoDeFavoritos([FromBody] FavoritoRequest request)
         {

@@ -49,14 +49,21 @@ namespace HardwareStoreAPI.Services
                 .HasMany(c => c.Productos)
                 .WithMany()
                 .UsingEntity<Dictionary<string, object>>(
-                "CarritoCompraProductos",
-                j => j.HasOne<Producto>()
-                .WithMany()
-                .HasForeignKey("IdProducto"),
-                j => j.HasOne<CarritoCompra>()
-                .WithMany()
-                .HasForeignKey("id_carrito") 
-                .OnDelete(DeleteBehavior.Cascade));
+                    "CarritoCompraProductos",
+                right => right
+                    .HasOne<Producto>()
+                    .WithMany()
+                    .HasForeignKey("IdProducto"),
+                left => left
+                    .HasOne<CarritoCompra>()
+                    .WithMany()
+                    .HasForeignKey("CarritoCompraId")
+                    .OnDelete(DeleteBehavior.Cascade),
+                join =>
+                {
+                    join.HasKey("CarritoCompraId", "IdProducto");
+                    join.ToTable("CarritoCompraProductos");
+                });
 
             modelBuilder.Entity<Usuario>()
                 .HasOne(u => u.ListaFavoritos)
@@ -68,13 +75,20 @@ namespace HardwareStoreAPI.Services
                 .WithMany()
                 .UsingEntity<Dictionary<string, object>>(
                     "ListaFavoritosProductos",
-                j => j.HasOne<Producto>()
-                .WithMany()
-                .HasForeignKey("IdProducto"),
-                j => j.HasOne<ListaFavoritos>()
-                .WithMany()
-                .HasForeignKey("id_favorito")
-                .OnDelete(DeleteBehavior.Cascade));
+                right => right
+                    .HasOne<Producto>()
+                    .WithMany()
+                    .HasForeignKey("IdProducto"),
+                left => left
+                    .HasOne<ListaFavoritos>()
+                    .WithMany()
+                    .HasForeignKey("ListaFavoritosId") 
+                    .OnDelete(DeleteBehavior.Cascade),
+                join =>
+                {
+                    join.HasKey("ListaFavoritosId", "IdProducto");
+                    join.ToTable("ListaFavoritosProductos");
+                });
         }
     }
 }

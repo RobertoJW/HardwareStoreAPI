@@ -52,9 +52,9 @@ namespace HardwareStoreAPI.Services
         {
             return await _context.Usuarios
             .Include(u => u.ListaFavoritos)
-                //.ThenInclude(lf => lf.Productos)
-            .Include(u => u.CarritoCompra).ToListAsync();
-                //.ThenInclude(c => c.Productos)
+                .ThenInclude(lf => lf.Productos)
+            .Include(u => u.CarritoCompra)
+                .ThenInclude(c => c.Productos).ToListAsync();
 
         }
     }
