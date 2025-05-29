@@ -14,8 +14,8 @@ namespace HardwareStoreAPI.Modelo
         public int id_carrito { get; set; }
         public int cantidad { get; set; }
         public int? userId { get; set; }
-        public virtual Usuario? Usuario { get; set; }
 
+        public virtual Usuario? Usuario { get; set; }   
         // Una lista de favoritos puede tener multiples productos.
         public virtual ICollection<Producto> Productos { get; set; } = new List<Producto>();
     }

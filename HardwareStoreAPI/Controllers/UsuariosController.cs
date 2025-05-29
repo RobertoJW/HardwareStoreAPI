@@ -48,16 +48,14 @@ namespace HardwareStoreAPI.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] Usuario usuarioLogin)
+        public async Task<IActionResult> Login([FromBody] LoginUsuario login)
         {
-            var usuario = await _usuario.ValidarCredencialesAsync(usuarioLogin.email, usuarioLogin.password);
+            var usuario = await _usuario.ValidarCredencialesAsync(login.email, login.password);
             if (usuario == null)
             {
                 return Unauthorized(new { mensaje = "Credenciales inválidas" });
             }
-
             return Ok(usuario);
         }
-
     }
 }
