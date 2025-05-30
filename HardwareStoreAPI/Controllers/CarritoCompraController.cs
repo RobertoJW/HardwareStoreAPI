@@ -9,9 +9,11 @@ namespace HardwareStoreAPI.Controllers
     public class CarritoCompraController : ControllerBase
     {
         private readonly AppDbContext _context;
-        public CarritoCompraController(AppDbContext context)
+        private readonly ILogger<CarritoCompraController> _logger;
+        public CarritoCompraController(AppDbContext context, ILogger<CarritoCompraController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -20,5 +22,8 @@ namespace HardwareStoreAPI.Controllers
             var carritoCompra = await _context.CarritoCompras.ToListAsync();
             return Ok(carritoCompra);
         }
+
+        [HttpPost("agregarProductoCarritoCompra")]
+        pyblic async Task<IActionResult> AgregarProductoCarritoCompra([FromBody] reque)
     }
 }

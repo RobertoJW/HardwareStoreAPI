@@ -20,6 +20,24 @@ namespace HardwareStoreAPI.Controllers
             _logger = logger;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetListaFavoritos()
+        {
+            try
+            {
+                var listaFavoritos = await _context.ListaFavoritos
+                    .Include(l => l.Productos)
+                    .ToListAsync();
+                return Ok(listaFavoritos);
+            }
+            catch (Exception ex)
+            {
+                // Registrar el error para diagnóstico
+                _logger.LogError(ex, "Error al obtener la lista de favoritos");
+                return StatusCode(500, new { error = "Error interno al obtener favoritos" });
+            }
+        }
+
         [HttpPost("agregar")]
         public async Task<IActionResult> AgregarProductoAFavoritos([FromBody] FavoritoRequest request)
         {
