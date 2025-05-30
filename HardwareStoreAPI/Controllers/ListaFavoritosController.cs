@@ -91,20 +91,5 @@ namespace HardwareStoreAPI.Controllers
 
             return Ok("Producto eliminado de favoritos correctamente");
         }
-        [HttpGet("{userId}")]
-        public async Task<IActionResult> ObtenerFavoritosDeUsuario(int userId)
-        {
-            var lista = await _context.ListaFavoritos
-                .Include(l => l.Productos)
-                .FirstOrDefaultAsync(l => l.userId == userId);
-
-            if (lista == null)
-            {
-                return NotFound(new { error = "Lista de favoritos no encontrada para este usuario" });
-            }
-
-            return Ok(lista);
-        }
-
     }
 }
