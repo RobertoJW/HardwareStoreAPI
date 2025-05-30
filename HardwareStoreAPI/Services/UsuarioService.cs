@@ -57,5 +57,15 @@ namespace HardwareStoreAPI.Services
                 .ThenInclude(c => c.Productos).ToListAsync();
 
         }
+        public async Task<Usuario?> ObtenerUsuarioPorIdAsync(int id)
+        {
+            return await _context.Usuarios
+                .Include(u => u.ListaFavoritos)
+                    .ThenInclude(f => f.Productos)
+                .Include(u => u.CarritoCompra)
+                    .ThenInclude(c => c.Productos)
+                .FirstOrDefaultAsync(u => u.userId == id);
+        }
+
     }
 }

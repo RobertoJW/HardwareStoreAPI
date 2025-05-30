@@ -57,5 +57,16 @@ namespace HardwareStoreAPI.Controllers
             }
             return Ok(usuario);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUsuarioPorId(int id)
+        {
+            var usuario = await _usuario.ObtenerUsuarioPorIdAsync(id);
+            if (usuario == null)
+                return NotFound("Usuario no encontrado");
+
+            return Ok(usuario);
+        }
+
     }
 }
