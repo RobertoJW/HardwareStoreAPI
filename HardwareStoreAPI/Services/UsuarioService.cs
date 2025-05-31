@@ -53,8 +53,10 @@ namespace HardwareStoreAPI.Services
             return await _context.Usuarios
             .Include(u => u.ListaFavoritos)
                 .ThenInclude(lf => lf.Productos)
+                    .ThenInclude(p => p.DescripcionGeneral)
             .Include(u => u.CarritoCompra)
-                .ThenInclude(c => c.Productos).ToListAsync();
+                .ThenInclude(c => c.Productos)
+                    .ThenInclude(p => p.DescripcionGeneral).ToListAsync();
         }
 
         public async Task<Usuario?> ObtenerUsuarioPorIdAsync(int id)
