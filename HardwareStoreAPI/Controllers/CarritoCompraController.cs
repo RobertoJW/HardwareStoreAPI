@@ -11,89 +11,90 @@ namespace HardwareStoreAPI.Controllers
     {
         private readonly AppDbContext _context;
         private readonly ILogger<CarritoCompraController> _logger;
+
         public CarritoCompraController(AppDbContext context, ILogger<CarritoCompraController> logger)
         {
             _context = context;
             _logger = logger;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetCarritoCompra()
+        // Obtener el carrito por usuario
+        [HttpGet("usuario/{userId}")]
+        public async Task<IActionResult> GetCarritoUsuario(int userId)
         {
-            var carritoCompra = await _context.CarritoCompras.ToListAsync();
-            return Ok(carritoCompra);
+            var carrito = await _context.CarritoCompras
+                .Include(c => c.Productos)
+                .FirstOrDefaultAsync(c => c.userId == userId);
+
+            if (carrito == null)
+            {
+                return NotFound("Carrito no encontrado");
+            }
+
+            return Ok(carrito);
         }
 
-        [HttpPost("agregarCC")]
-        public async Task<IActionResult> AgregarProductoACarritoCompra([FromBody] FavoritoRequest request)
+        // Agregar producto al carrito
+        [HttpPost("agregar")]
+        public async Task<IActionResult> AgregarProducto([FromBody] CarritoRequest request)
         {
             try
             {
-                // Asegúrate de que el DTO viene bien formado
                 if (request == null || request.UserId <= 0 || request.ProductoId <= 0)
-                    return BadRequest(new { error = "Request inválido" });
+                    return BadRequest("Request inválido");
 
-                // Carga la lista del usuario
-                var lista = await _context.CarritoCompras
-                    .Include(l => l.Productos)
-                    .FirstOrDefaultAsync(l => l.userId == request.UserId);
+                var carrito = await _context.CarritoCompras
+                    .Include(c => c.Productos)
+                    .FirstOrDefaultAsync(c => c.userId == request.UserId);
 
-                if (lista == null)
-                    return NotFound(new { error = "Lista de favoritos no encontrada" });
+                if (carrito == null)
+                {
+                    carrito = new CarritoCompra
+                    {
+                        userId = request.UserId,
+                        Productos = new List<Producto>()
+                    };
+                    _context.CarritoCompras.Add(carrito);
+                }
 
-                // Busca el producto
                 var producto = await _context.Productos.FindAsync(request.ProductoId);
                 if (producto == null)
-                    return NotFound(new { error = "Producto no encontrado" });
+                    return NotFound("Producto no encontrado");
 
-                // Comprueba duplicados
-                if (lista.Productos.Any(p => p.IdProducto == producto.IdProducto))
-                    return BadRequest(new { error = "Producto ya está en favoritos" });
+                if (carrito.Productos.Any(p => p.IdProducto == producto.IdProducto))
+                    return BadRequest("Producto ya está en el carrito");
 
-                // Agrega y guarda
-                lista.Productos.Add(producto);
+                carrito.Productos.Add(producto);
                 await _context.SaveChangesAsync();
 
-                return Ok(new { mensaje = "Producto agregado correctamente" });
+                return Ok("Producto agregado al carrito");
             }
             catch (Exception ex)
             {
-                // Registrar el stacktrace para diagnóstico
-                _logger.LogError(ex,
-                    "Error agregando favorito: UserId={UserId}, ProductoId={ProductoId}",
-                    request?.UserId, request?.ProductoId);
-
-                // Devuelve JSON con detalle (solo en desarrollo; en producción omite stack)
-                return StatusCode(500, new
-                {
-                    error = "Error interno al agregar favorito",
-                    detalle = ex.Message
-                });
+                _logger.LogError(ex, "Error al agregar producto al carrito");
+                return StatusCode(500, "Error interno al agregar producto");
             }
         }
 
-        [HttpPost("quitarCC")]
-        public async Task<IActionResult> QuitarProductoDeCarritoCompra([FromBody] FavoritoRequest request)
+        // Quitar producto del carrito
+        [HttpPost("quitar")]
+        public async Task<IActionResult> QuitarProducto([FromBody] CarritoRequest request)
         {
-            var lista = await _context.CarritoCompras
-                .Include(l => l.Productos)
-                .FirstOrDefaultAsync(l => l.userId == request.UserId);
+            var carrito = await _context.CarritoCompras
+                .Include(c => c.Productos)
+                .FirstOrDefaultAsync(c => c.userId == request.UserId);
 
-            if (lista == null)
-            {
-                return NotFound("Lista de favoritos no encontrada");
-            }
+            if (carrito == null)
+                return NotFound("Carrito no encontrado");
 
-            var producto = lista.Productos.FirstOrDefault(p => p.IdProducto == request.ProductoId);
+            var producto = carrito.Productos.FirstOrDefault(p => p.IdProducto == request.ProductoId);
             if (producto == null)
-            {
-                return NotFound("Producto no encontrado en favoritos");
-            }
+                return NotFound("Producto no está en el carrito");
 
-            lista.Productos.Remove(producto);
+            carrito.Productos.Remove(producto);
             await _context.SaveChangesAsync();
 
-            return Ok("Producto eliminado de favoritos correctamente");
+            return Ok("Producto eliminado del carrito");
         }
     }
 }
