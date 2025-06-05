@@ -18,6 +18,24 @@ namespace HardwareStoreAPI.Controllers
             _logger = logger;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetCarritoCompra()
+        {
+            try
+            {
+                var carritoCompra = await _context.CarritoCompras
+                    .Include(l => l.Productos)
+                    .ToListAsync();
+                return Ok(carritoCompra);
+            }
+            catch (Exception ex)
+            {
+                // Registrar el error para diagnóstico
+                _logger.LogError(ex, "Error al obtener la carrito de compra");
+                return StatusCode(500, new { error = "Error interno al obtener carrito de compra" });
+            }
+        }
+
         // Obtener el carrito por usuario
         [HttpGet("usuario/{userId}")]
         public async Task<IActionResult> GetCarritoUsuario(int userId)

@@ -68,5 +68,24 @@ namespace HardwareStoreAPI.Controllers
             return Ok(usuario);
         }
 
+        // DELETE api/usuarios/{id}/carrito
+        [HttpDelete("{id}/carrito")]
+        public async Task<IActionResult> VaciarCarritoUsuario(int id)
+        {
+            try
+            {
+                // Esto asume que tu UsuarioService expone un método para ello.
+                var success = await _usuario.VaciarCarritoUsuarioAsync(id);
+                if (!success)
+                    return NotFound("Usuario o carrito no encontrado.");
+
+                return Ok("Carrito vaciado correctamente.");
+            }
+            catch (Exception ex)
+            {
+                // Log del error si tienes un logger
+                return StatusCode(500, "Error interno al vaciar el carrito.");
+            }
+        }
     }
 }

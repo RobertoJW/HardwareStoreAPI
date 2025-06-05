@@ -69,5 +69,19 @@ namespace HardwareStoreAPI.Services
                 .FirstOrDefaultAsync(u => u.userId == id);
         }
 
+        public async Task<bool> VaciarCarritoUsuarioAsync(int userId)
+        {
+            var usuario = await _context.Usuarios
+                .Include(u => u.CarritoCompra)
+                    .ThenInclude(c => c.Productos)
+                .FirstOrDefaultAsync(u => u.userId == userId);
+
+            if (usuario?.CarritoCompra == null)
+                return false;
+
+            usuario.CarritoCompra.Productos.Clear();
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }
